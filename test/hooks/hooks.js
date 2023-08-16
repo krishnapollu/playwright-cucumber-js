@@ -6,7 +6,7 @@ const { Logger } = require('../utils/Logger');
 let browser;
 
 BeforeAll(async function() {
-  browser = await chromium.launch({ headless: false })
+  browser = await chromium.launch()
 })
 
 Before(async function({pickle}) {
