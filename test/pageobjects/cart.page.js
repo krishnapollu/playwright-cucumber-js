@@ -1,40 +1,40 @@
 const { expect } = require("@playwright/test");
+const { fixture } = require('../fixtures/fixture');
 
 exports.CartPage = class Cart {
 
-    constructor(page) {
-        this.page = page;
+    constructor() {
     }
 
     async removeFromCart(str){
-        await this.page.locator('//div[contains(.,"'+str+'")]/../following-sibling::div[@class="item_pricebar"]/button').click();
+        await fixture.page.locator('//div[contains(.,"'+str+'")]/../following-sibling::div[@class="item_pricebar"]/button').click();
     }
     
     async verifyItemPresent(str){
-        await expect(this.page.locator('//div[@class="cart_item_label" and contains(.,"'+str+'")]')).toBeVisible();
+        await expect(fixture.page.locator('//div[@class="cart_item_label" and contains(.,"'+str+'")]')).toBeVisible();
     }
 
     async continueShopping(){
-        await this.page.locator('//a[contains(.,"Continue Shopping")').click();
+        await fixture.page.locator('//a[contains(.,"Continue Shopping")').click();
     }
 
     async checkOut(){
-        await this.page.locator('//a[contains(.,"CHECKOUT")]').click();
+        await fixture.page.locator('//a[contains(.,"CHECKOUT")]').click();
     }
 
     async verifyPaymentInfo(){
-        await expect(this.page.locator('.summary_info')).toBeVisible();
+        await expect(fixture.page.locator('.summary_info')).toBeVisible();
     }
 
     async clickFinish(){
-        await this.page.locator('//a[contains(.,"FINISH")]').click();
-        await expect(this.page.locator('#checkout_complete_container')).toBeVisible();
+        await fixture.page.locator('//a[contains(.,"FINISH")]').click();
+        await expect(fixture.page.locator('#checkout_complete_container')).toBeVisible();
     }
 
     async gotoAllItems(){
         
-            await this.page.locator('//button[contains(.,"Open Menu")]').click();
-            await this.page.locator('#inventory_sidebar_link').click();
+            await fixture.page.locator('//button[contains(.,"Open Menu")]').click();
+            await fixture.page.locator('#inventory_sidebar_link').click();
          
     }
 };

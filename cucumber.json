@@ -13,6 +13,7 @@
         ],
         "format": [
             "html:reports/cucumber-report.html",
-            "progress-bar"]
+            "progress-bar"],
+        "parallel": 2
     }
 }

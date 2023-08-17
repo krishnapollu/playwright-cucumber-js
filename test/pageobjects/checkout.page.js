@@ -1,20 +1,20 @@
 const { expect } = require("@playwright/test");
+const { fixture } = require('../fixtures/fixture');
 
 exports.CheckoutPage = class Checkout {
 
-    constructor(page) {
-        this.page = page;
+    constructor() {
     }
 
     async fillCheckOutInfo(fname, lname, zip){
 
-        await this.page.locator('#first-name').fill(fname);
-        await this.page.locator('#last-name').fill(lname);
-        await this.page.locator('#postal-code').fill(zip);
-        await this.page.locator('//input[@value="CONTINUE"]').click();
+        await fixture.page.locator('#first-name').fill(fname);
+        await fixture.page.locator('#last-name').fill(lname);
+        await fixture.page.locator('#postal-code').fill(zip);
+        await fixture.page.locator('//input[@value="CONTINUE"]').click();
     }
 
     async cancelCheckOut(){
-        await this.page.locator('//a[contains(.,"CANCEL")]').click();
+        await fixture.page.locator('//a[contains(.,"CANCEL")]').click();
     }
 };

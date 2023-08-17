@@ -1,17 +1,17 @@
 const { expect } = require("@playwright/test");
+const { fixture } = require('../fixtures/fixture');
 
 exports.ProductPage = class Product {
 
-    constructor(page) {
-        this.page = page;
+    constructor() {
     }
 
     async addToCart(){
-        await this.page.locator('//button[contains(.,"ADD TO CART")]').click();
+        await fixture.page.locator('//button[contains(.,"ADD TO CART")]').click();
     }
 
     async goBack(){
-        await this.page.locator('//button[@class="inventory_details_back_button"]').click();
+        await fixture.page.locator('//button[@class="inventory_details_back_button"]').click();
     }
 };
     

@@ -1,6 +1,17 @@
-Feature: Google Search
+Feature: Product Sort Functionality
 
-Scenario: Do a Google Search with keyword
-Given Login to Application
+Scenario: Verify Sort Functionality
 When Sorting the page
 Then Products should get sorted
+
+Scenario: Add Product to cart and then remove
+Given Product selected
+When Added to cart
+Then Product should be visible in Cart page
+And User should be able to remove the product from Cart
+
+Scenario: Checkout Cancellation
+Given Product selected
+When Added to cart
+Then Product should be visible in Cart page
+And User should be able to cancel Checkout
