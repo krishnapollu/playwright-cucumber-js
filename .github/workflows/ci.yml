@@ -35,6 +35,7 @@ jobs:
           name: playwright-report
           path: |
             reports/
+            allure-resutls/
           retention-days: 30
           
       - name: Get test results history
