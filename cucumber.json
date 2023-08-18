@@ -13,6 +13,7 @@
         ],
         "format": [
             "html:reports/cucumber-report.html",
+            "./test/utils/reporter.js:reports/allure.html",
             "progress-bar"],
         "parallel": 2
     }
