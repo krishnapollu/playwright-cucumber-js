@@ -1,19 +1,33 @@
 
 require('dotenv').config();
-const { Given, When, Then, DataTable } = require('@cucumber/cucumber');
-const { expect } = require("@playwright/test");
+const { test } = require('@playwright/test');
+const { createBdd } = require('playwright-bdd');
 const { fixture } = require('../fixtures/fixture');
 const { LoginPage } = require('../pageobjects/login.page');
 const { HomePage } = require('../pageobjects/home.page');
 const { CartPage } = require('../pageobjects/cart.page');
 const { CheckoutPage } = require('../pageobjects/checkout.page');
 const { ProductPage } = require('../pageobjects/product.page');
+const { Logger } = require('../utils/Logger');
+const { Before, AfterStep, Given, When, Then } = createBdd();
 
 let loginPage;
 let homePage;
 let productPage;
 let cartPage;
 let checkoutPage;
+
+Before({ tags: '@saucedemo' }, async ({ page }) => {
+    fixture.page = page;
+    fixture.logger = Logger(test.info().title);
+    const loginPage = new LoginPage();
+    await loginPage.invokeApp();
+    await loginPage.doLogin(process.env.USER_ID, process.env.USER_PWD);
+});
+
+AfterStep({ tags: '@saucedemo' }, async ({ page }) => {
+    await test.info().attach('step screenshot', { body: await page.screenshot(), contentType: 'image/png' });
+});
 
 When(`Sorting the page`, async () => {
     homePage = new HomePage();

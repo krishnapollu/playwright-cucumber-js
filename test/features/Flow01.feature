@@ -1,3 +1,4 @@
+@saucedemo
 Feature: Product Sort Functionality
 
 Scenario: Verify Sort Functionality
