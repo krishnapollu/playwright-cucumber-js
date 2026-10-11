@@ -1,4 +1,4 @@
-@bdd
+@logbook-check
 Feature: Logbook records Cucumber-style Playwright scenarios
   Scenario: Passed scenario with an attachment
     Given a local page with a Save button

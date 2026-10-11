@@ -6,7 +6,7 @@ import { resolve } from 'node:path';
 import { chromium } from '@playwright/test';
 
 const runId = `bdd-${randomUUID()}`;
-const result = spawnSync(process.execPath, ['node_modules/@playwright/test/cli.js', 'test'], {
+const result = spawnSync(process.execPath, ['node_modules/@playwright/test/cli.js', 'test', '--grep', '@logbook-check'], {
   env: { ...process.env, LOGBOOK_RUN_ID: runId },
   stdio: 'inherit',
 });
@@ -16,7 +16,7 @@ const run = JSON.parse(await readFile(`.logbook/runs/${runId}.json`, 'utf8'));
 assert.deepEqual(run.summary, { total: 6, passed: 3, failed: 1, flaky: 1, skipped: 1 });
 assert.equal(run.complete, true);
 assert.equal(run.tests.length, 6);
-assert.ok(run.tests.every((item) => item.tags.includes('@bdd')));
+assert.ok(run.tests.every((item) => item.tags.includes('@logbook-check')));
 
 const passed = run.tests.find((item) => item.title === 'Passed scenario with an attachment');
 assert.equal(passed.outcome, 'expected');
@@ -43,7 +43,7 @@ assert.equal(debug.status, 0, debug.stderr);
 assert.equal(JSON.parse(debug.stdout).testId, failed.testId);
 
 const html = await readFile('.logbook/report/index.html', 'utf8');
-assert.match(html, /BDD compatibility/);
+assert.match(html, /playwright-cucumber/);
 assert.match(html, /A failed assertion retains its error/);
 assert.ok(!html.includes(resolve('.')));
 const browser = await chromium.launch();
@@ -55,13 +55,12 @@ try {
   });
   await page.goto(`file://${resolve('.logbook/report/index.html')}`);
   await page.getByText('A failed assertion retains its error').last().click();
-  const dialog = page.getByRole('dialog');
-  assert.equal(await dialog.isVisible(), true);
-  assert.match(await dialog.innerText(), /2 attempts/);
-  await dialog.getByRole('tab', { name: /Steps/ }).click();
-  assert.match(await dialog.innerText(), /Given a local page with a Save button/);
-  await dialog.getByRole('tab', { name: /Attachments/ }).click();
-  assert.match(await dialog.innerText(), /error-context/);
+  assert.match(page.url(), /#test=/);
+  assert.match(await page.locator('body').innerText(), /2 attempts/);
+  await page.getByRole('tab', { name: /Steps/ }).click();
+  assert.match(await page.locator('body').innerText(), /Given a local page with a Save button/);
+  await page.getByRole('tab', { name: /Attachments/ }).click();
+  assert.match(await page.locator('body').innerText(), /error-context/);
   assert.deepEqual(networkRequests, []);
 } finally {
   await browser.close();

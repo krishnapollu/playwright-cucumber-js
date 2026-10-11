@@ -1,3 +1,4 @@
+@saucedemo
 Feature: End to End User flow
 
 Scenario: User Checkout Flow

@@ -1,5 +1,5 @@
-import { expect, test } from '@playwright/test';
-import { createBdd } from 'playwright-bdd';
+const { expect, test } = require('@playwright/test');
+const { createBdd } = require('playwright-bdd');
 
 const { Given, When, Then } = createBdd();
 
@@ -16,7 +16,7 @@ Then('I see a saved confirmation', async ({ page }) => {
   await test.info().attach('confirmation', { body: 'Saved', contentType: 'text/plain' });
 });
 
-Then('I see a saved confirmation for {string}', async ({ page }, item: string) => {
+Then('I see a saved confirmation for {string}', async ({ page }, item) => {
   await expect(page.locator('output')).toHaveText('Saved');
   await test.info().attach('item', { body: item, contentType: 'text/plain' });
 });

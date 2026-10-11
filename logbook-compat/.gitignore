@@ -1,5 +1,0 @@
-node_modules/
-.features-gen/
-.logbook/
-test-results/
-!package-lock.json
